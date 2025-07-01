@@ -6,19 +6,39 @@ import os
 # 'wide' modu sayfanın tüm genişliği kullanmasını sağlar.
 st.set_page_config(
     layout="wide",
-    page_title="Elden Taksit Başvuru Formu",
-    page_icon="📝"
+    page_title="Elden Taksit Başvuru Formu"
 )
 
-# ----------------- ANA BAŞLIK VE AÇIKLAMA -----------------
-st.title("📝 Elden Taksit Başvuru Formu")
-st.markdown("Hayalinizdeki ürüne kolayca sahip olmak için aşağıdaki başvuru formunu doldurmanız yeterlidir.")
-st.markdown("---")
+# --- Streamlit'in varsayılan üst ve yan boşluklarını kaldırmak için CSS ---
+# Bu kod, formun sayfayı tam olarak kaplamasını sağlar.
+st.markdown("""
+    <style>
+        /* Ana uygulama alanındaki tüm dolguları (padding) kaldır */
+        .main .block-container {
+            padding-top: 0rem;
+            padding-bottom: 0rem;
+            padding-left: 0rem;
+            padding-right: 0rem;
+        }
+        /* Streamlit'in üstbilgisini (header) ve menüsünü gizle */
+        header {
+            visibility: hidden;
+        }
+        #MainMenu {
+            visibility: hidden;
+        }
+        /* Streamlit'in altbilgisini (footer) gizle */
+        footer {
+            visibility: hidden;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
 
 # ----------------- HTML FORMUNU YÜKLEME -----------------
 
 # Gösterilecek HTML dosyasının adı.
-# Bu dosyanın app.py ile aynı klasörde olması beklenir.
+# Bu dosyanın app.py ile aynı klasörde olması gerekir.
 HTML_FORM_FILE = "form.html"
 
 def load_html_file(file_path):
@@ -30,6 +50,7 @@ def load_html_file(file_path):
         return None
 
 # HTML dosyasının tam yolunu al
+# __file__ mevcut betiğin yolunu belirtir, bu sayede dosya yolu her zaman doğru olur.
 html_path = os.path.join(os.path.dirname(__file__), HTML_FORM_FILE)
 
 # HTML içeriğini yükle
@@ -37,37 +58,12 @@ html_code = load_html_file(html_path)
 
 if html_code:
     # HTML kodunu bir Streamlit bileşeni olarak sayfaya ekle.
-    # height: iframe'in yüksekliğini belirler.
-    # scrolling=True: Gerekirse iframe içinde kaydırma çubuğu çıkmasını sağlar.
-    st.components.v1.html(html_code, height=700, scrolling=True)
+    # Yükseklik, dikey kaydırma çubuğu oluşmaması için yeterince büyük ayarlandı.
+    st.components.v1.html(html_code, height=900, scrolling=False)
 else:
-    # HTML dosyası bulunamazsa kullanıcıyı bilgilendir.
+    # HTML dosyası bulunamazsa, kullanıcıyı bilgilendirmek için bir hata mesajı göster.
     st.error(f"HATA: '{HTML_FORM_FILE}' dosyası bulunamadı!")
     st.warning(
         f"Lütfen Canvas'taki HTML kodunu kopyalayıp bu Python betiğiyle "
         f"aynı klasörde '{HTML_FORM_FILE}' adıyla kaydedin."
     )
-
-# ----------------- YAN MENÜ (SIDEBAR) BİLGİLENDİRMESİ -----------------
-st.sidebar.header("Kullanım Adımları")
-st.sidebar.markdown(
-    """
-    Bu uygulamayı çalıştırmak için:
-
-    1.  **HTML Dosyasını Oluşturun:**
-        * Canvas'taki HTML kodunun tamamını kopyalayın.
-        * Bu `app.py` dosyasıyla aynı klasörde `form.html` adında yeni bir dosya oluşturup içine yapıştırın.
-
-    2.  **Google Form'u Ayarlayın:**
-        * Oluşturduğunuz `form.html` dosyasını bir metin düzenleyici ile açın.
-        * `SİZİN_GOOGLE_FORM_YANIT_URL_NİZ` yazan yeri ve `entry.ID`'leri kendi Google Form bilgilerinizle güncelleyin.
-
-    3.  **Uygulamayı Başlatın:**
-        * Terminal veya komut istemcisini açın.
-        * Aşağıdaki komutu çalıştırın:
-        ```bash
-        streamlit run app.py
-        ```
-    """
-)
-st.sidebar.info("Form gönderildikten sonra verileriniz ayarladığınız Google E-Tablolar dosyasına kaydedilecektir.")
