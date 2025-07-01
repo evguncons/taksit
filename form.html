@@ -11,25 +11,30 @@
         /* Genel Sayfa Stilleri */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #ffffff; /* Arkaplanı tamamen beyaz yap */
             color: #343a40;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            margin: 0; /* Dış boşlukları kaldır */
+            padding: 0; /* İç boşlukları kaldır */
         }
 
         /* Form Konteyneri */
         .form-container {
             background-color: #ffffff;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px; /* İçerik kenarlara yapışmasın diye hafif boşluk */
             width: 100%;
-            max-width: 550px;
+            max-width: 100%; /* Maksimum genişlik limitini kaldır */
+            min-height: 100vh; /* Minimum yükseklik ekranı kaplasın */
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* İçeriği dikeyde ortala */
+            align-items: center; /* İçeriği yatayda ortala */
+        }
+        
+        /* Formu ve başarı mesajını sarmalayan ana div'ler için stil */
+        #application-form, #success-message {
+            width: 100%;
+            max-width: 550px; /* Formun çok genişlemesini engelle */
         }
 
         /* Başlık ve Açıklama */
