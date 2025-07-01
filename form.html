@@ -37,10 +37,20 @@
         }
 
         /* Başlık ve Açıklama */
+        .form-header {
+            text-align: center; /* İçeriği ortala */
+        }
+        
+        .form-logo {
+            display: block;
+            margin: 0 auto 20px auto; /* Üst 0, sağ/sol auto (ortalar), alt 20px */
+            max-width: 200px; /* Logonun çok büyümesini engelle */
+            height: auto; /* Oranı koru */
+        }
+
         .form-header h2 {
             margin: 0 0 10px 0;
             color: #343a40;
-            text-align: center;
             font-weight: 700;
             font-size: 1.8rem;
         }
@@ -48,7 +58,6 @@
         .form-header p {
             margin: 0 0 30px 0;
             color: #6c757d;
-            text-align: center;
             line-height: 1.6;
         }
 
@@ -142,6 +151,7 @@
     <div class="form-wrapper">
         <div id="application-form">
             <div class="form-header">
+                <img src="https://static.ticimax.cloud/32769/uploads/editoruploads/hedef-image/logo.png" alt="Logo" class="form-logo">
                 <h2>Elden Taksit Başvuru Formu</h2>
                 <p>
                     Formu doldurduktan sonra, satın alım ve kontrol işlemleri için en kısa sürede sizinle iletişime geçeceğiz. Keyifli alışverişler dileriz.
