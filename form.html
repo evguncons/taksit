@@ -9,32 +9,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Genel Sayfa Stilleri */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden; /* Yatay kaydırmayı engelle */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff; /* Arkaplanı tamamen beyaz yap */
+            background-color: #ffffff;
             color: #343a40;
-            margin: 0; /* Dış boşlukları kaldır */
-            padding: 0; /* İç boşlukları kaldır */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ekran yüksekliğini kaplamasını sağla */
+            box-sizing: border-box;
         }
 
         /* Form Konteyneri */
-        .form-container {
-            background-color: #ffffff;
-            padding: 20px; /* İçerik kenarlara yapışmasın diye hafif boşluk */
+        .form-wrapper {
             width: 100%;
-            max-width: 100%; /* Maksimum genişlik limitini kaldır */
-            min-height: 100vh; /* Minimum yükseklik ekranı kaplasın */
+            max-width: 550px; /* Formun masaüstünde çok genişlemesini engelle */
+            padding: 20px;
             box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* İçeriği dikeyde ortala */
-            align-items: center; /* İçeriği yatayda ortala */
-        }
-        
-        /* Formu ve başarı mesajını sarmalayan ana div'ler için stil */
-        #application-form, #success-message {
-            width: 100%;
-            max-width: 550px; /* Formun çok genişlemesini engelle */
         }
 
         /* Başlık ve Açıklama */
@@ -43,6 +42,7 @@
             color: #343a40;
             text-align: center;
             font-weight: 700;
+            font-size: 1.8rem;
         }
 
         .form-header p {
@@ -84,7 +84,7 @@
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #d81b60; /* Magenta rengi */
+            border-color: #d81b60;
             box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.2);
         }
 
@@ -122,11 +122,24 @@
             border: 1px solid #f8bbd0;
             border-radius: 8px;
         }
+        
+        /* Mobil Cihazlar için Responsive Ayarlar */
+        @media (max-width: 600px) {
+            .form-wrapper {
+                padding: 15px; /* Mobilde iç boşluğu azalt */
+            }
+            .form-header h2 {
+                font-size: 1.5rem; /* Mobilde başlığı küçült */
+            }
+            .form-header p {
+                font-size: 0.9rem; /* Mobilde metni küçült */
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="form-container">
+    <div class="form-wrapper">
         <div id="application-form">
             <div class="form-header">
                 <h2>Elden Taksit Başvuru Formu</h2>
@@ -173,21 +186,19 @@
         const successMessage = document.getElementById('success-message');
 
         form.addEventListener('submit', async function(e) {
-            e.preventDefault(); // Formun normal gönderimini engelle
+            e.preventDefault(); 
 
             submitButton.disabled = true;
             submitButton.textContent = 'Gönderiliyor...';
 
             const formData = new FormData(form);
-            
-            // Google Form URL'si sizin verdiğiniz link ile güncellendi.
             const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfNx6UTay-l_UsMMdc2g_NcGi1tcZg-1DSJePSdYejKl-fGHQ/formResponse';
 
             try {
                 await fetch(googleFormUrl, {
                     method: 'POST',
                     body: formData,
-                    mode: 'no-cors' // Bu satır kritik öneme sahip
+                    mode: 'no-cors'
                 });
             } catch (error) {
                 console.error('Form gönderiminde hata:', error);
