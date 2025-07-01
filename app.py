@@ -10,39 +10,34 @@ st.set_page_config(
 
 # --- Streamlit Arayüzünü ve Boşlukları Kaldırmak için CSS ---
 # Bu kod, formun sayfayı tam olarak kaplaması için Streamlit'in
-# varsayılan stillerini geçersiz kılar.
+# varsayılan stillerini daha agresif bir şekilde geçersiz kılar.
 st.markdown("""
     <style>
+        /* HTML ve Body etiketlerinden tüm boşlukları kaldır */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden; /* Sayfa genelinde kaydırmayı engelle, iframe kendi içinde kaydıracak */
+        }
+        
         /* Streamlit'in ana uygulama kapsayıcısındaki tüm boşlukları kaldır */
         .block-container {
             padding: 0 !important;
             margin: 0 !important;
         }
         
-        /* Daha genel bir seçici ile tüm üst düzey boşlukları hedefle */
+        /* Streamlit tarafından eklenen ve boşluğa neden olabilecek tüm ana div'leri hedefle */
+        div[data-testid="stAppViewContainer"],
+        div[data-testid="stAppViewContainer"] > .main,
         div[data-testid="stAppViewContainer"] > .main > div:first-child {
-             padding: 0;
+             padding: 0 !important;
+             margin: 0 !important;
         }
 
-        /* Streamlit'in üstbilgisini (header) tamamen gizle */
-        header {
-            visibility: hidden;
-            height: 0;
-        }
-
-        /* Hamburger menüsünü tamamen gizle */
-        #MainMenu {
-            visibility: hidden;
-        }
-
-        /* Streamlit'in altbilgisini (footer) tamamen gizle */
-        footer {
-            visibility: hidden;
-        }
-        
-        /* Sağ üstteki araç çubuğunu gizle */
-        div[data-testid="stToolbar"] {
-            visibility: hidden;
+        /* Streamlit'in tüm arayüz elemanlarını tamamen gizle */
+        header, #MainMenu, footer, div[data-testid="stToolbar"] {
+            display: none !important;
+            visibility: hidden !important;
         }
     </style>
     """, unsafe_allow_html=True)
