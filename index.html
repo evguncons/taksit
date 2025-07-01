@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elden Taksit Başvuru Formu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Genel Sayfa Stilleri */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Form Konteyneri */
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 550px;
+            box-sizing: border-box;
+        }
+
+        /* Başlık ve Açıklama */
+        .form-header h2 {
+            margin: 0 0 10px 0;
+            color: #343a40;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .form-header p {
+            margin: 0 0 30px 0;
+            color: #6c757d;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Form Alanları */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d81b60; /* Magenta rengi */
+            box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.2);
+        }
+
+        /* Gönder Butonu */
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #d81b60, #f06292);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(216, 27, 96, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        /* Başarı Mesajı */
+        #success-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: #fce4ec;
+            color: #d81b60;
+            border: 1px solid #f8bbd0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <div id="application-form">
+            <div class="form-header">
+                <h2>Elden Taksit Başvuru Formu</h2>
+                <p>
+                    Formu doldurduktan sonra, satın alım ve kontrol işlemleri için en kısa sürede sizinle iletişime geçeceğiz. Keyifli alışverişler dileriz.
+                </p>
+            </div>
+
+            <!-- 
+              ÖNEMLİ: Aşağıdaki URL'yi ve 'name' alanlarındaki entry ID'leri
+              kendi Google Form'unuza göre düzenlemelisiniz.
+            -->
+            <form id="taksit-form">
+                <div class="form-group">
+                    <label for="name">Ad Soyad</label>
+                    <input type="text" id="name" name="entry.ZZZZZZZZZZ" placeholder="Adınız ve Soyadınız" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Telefon Numarası</label>
+                    <input type="tel" id="phone" name="entry.XXXXXXXXXX" placeholder="05XX XXX XX XX" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Adres</label>
+                    <textarea id="address" name="entry.BBBBBBBBBB" rows="4" placeholder="İl / İlçe" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="product">Alınmak İstenen Ürün Adı (Marka ve Model)</label>
+                    <input type="text" id="product" name="entry.YYYYYYYYYY" placeholder="buzdolabı, çamaşır makinesi, televizyon vs." required>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-button">Başvuruyu Gönder</button>
+            </form>
+        </div>
+        
+        <div id="success-message">
+            <h3>Başvurunuz Alındı!</h3>
+            <p>En kısa sürede sizinle iletişime geçeceğiz. Teşekkür ederiz.</p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('taksit-form');
+        const submitButton = document.getElementById('submit-button');
+        const formContainer = document.getElementById('application-form');
+        const successMessage = document.getElementById('success-message');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Formun normal gönderimini engelle
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Gönderiliyor...';
+
+            const formData = new FormData(form);
+            
+            // Google Form'un yanıt URL'si. SONDAN /viewform silinip /formResponse eklenmeli.
+            const googleFormUrl = 'SİZİN_GOOGLE_FORM_YANIT_URL_NİZ';
+
+            try {
+                await fetch(googleFormUrl, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors' // Bu satır kritik öneme sahip
+                });
+            } catch (error) {
+                console.error('Form gönderiminde hata:', error);
+            } finally {
+                formContainer.style.display = 'none';
+                successMessage.style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+</html>
