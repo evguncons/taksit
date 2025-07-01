@@ -131,7 +131,7 @@
             </div>
 
             <!-- 
-              ÖNEMLİ: Aşağıdaki URL'yi ve 'name' alanlarındaki entry ID'leri
+              ÖNEMLİ: Aşağıdaki 'name' alanlarındaki entry ID'leri
               kendi Google Form'unuza göre düzenlemelisiniz.
             -->
             <form id="taksit-form">
@@ -179,8 +179,8 @@
 
             const formData = new FormData(form);
             
-            // Google Form'un yanıt URL'si. SONDAN /viewform silinip /formResponse eklenmeli.
-            const googleFormUrl = 'SİZİN_GOOGLE_FORM_YANIT_URL_NİZ';
+            // Google Form URL'si sizin verdiğiniz link ile güncellendi.
+            const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfNx6UTay-l_UsMMdc2g_NcGi1tcZg-1DSJePSdYejKl-fGHQ/formResponse';
 
             try {
                 await fetch(googleFormUrl, {
